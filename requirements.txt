@@ -7,6 +7,7 @@ attrs==23.2.0
 backcall==0.2.0
 beautifulsoup4==4.12.3
 bleach==6.1.0
+cachetools==5.3.3
 certifi==2024.2.2
 charset-normalizer==3.3.2
 dataclasses-json==0.6.5
@@ -16,6 +17,13 @@ docopt==0.6.2
 executing==2.0.1
 fastjsonschema==2.19.1
 frozenlist==1.4.1
+google-api-core==2.19.0
+google-api-python-client==2.127.0
+google-auth==2.29.0
+google-auth-httplib2==0.2.0
+google-auth-oauthlib==1.2.0
+googleapis-common-protos==1.63.0
+httplib2==0.22.0
 idna==3.7
 ipython==8.12.3
 jedi==0.19.1
@@ -35,6 +43,7 @@ langchain-text-splitters==0.0.1
 langchainhub==0.1.15
 langgraph==0.0.39
 langsmith==0.1.52
+markdownify==0.12.1
 MarkupSafe==2.1.5
 marshmallow==3.21.1
 matplotlib-inline==0.1.7
@@ -46,6 +55,7 @@ nbconvert==7.16.4
 nbformat==5.10.4
 neo4j==5.20.0
 numpy==1.26.4
+oauthlib==3.2.2
 orjson==3.10.1
 packaging==23.2
 pandocfilters==1.5.1
@@ -55,11 +65,16 @@ pickleshare==0.7.5
 pipreqs==0.5.0
 platformdirs==4.2.1
 prompt-toolkit==3.0.43
+proto-plus==1.23.0
+protobuf==4.25.3
 ptyprocess==0.7.0
 pure-eval==0.2.2
+pyasn1==0.6.0
+pyasn1_modules==0.4.0
 pydantic==2.7.1
 pydantic_core==2.18.2
 Pygments==2.17.2
+pyparsing==3.1.2
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 pytz==2024.1
@@ -68,7 +83,9 @@ pyzmq==26.0.2
 redis==5.0.4
 referencing==0.35.0
 requests==2.31.0
+requests-oauthlib==2.0.0
 rpds-py==0.18.0
+rsa==4.9
 six==1.16.0
 soupsieve==2.5
 SQLAlchemy==2.0.29
@@ -80,6 +97,7 @@ traitlets==5.14.3
 types-requests==2.31.0.20240406
 typing-inspect==0.9.0
 typing_extensions==4.11.0
+uritemplate==4.1.1
 urllib3==2.2.1
 wcwidth==0.2.13
 webencodings==0.5.1
