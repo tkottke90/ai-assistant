@@ -1,6 +1,8 @@
 {
   "cSpell.words": [
     "creds",
-    "langchain"
+    "langchain",
+    "llms",
+    "Ollama"
   ]
 }
