@@ -14,9 +14,17 @@ class EmailService:
   def getProfile(self, userId: str):
     return self.baseUrl(userId=userId).execute()
 
-  def getMessages(self, userId: str) -> list[EmailMessage]:
+  def getMessages(self, userId: str, query: str = None, maxResults: int = None) -> list[EmailMessage]:
     msgPath = self.baseUrl.messages()
 
-    messageList = [ MessageListItem(**msg) for msg in msgPath.list(userId=userId).execute().get('messages') ]
+    messageList = [ 
+      MessageListItem(**msg) 
+      for msg 
+      in msgPath.list(
+        userId=userId,
+        maxResults=(maxResults if maxResults else 20),
+        q=(query if query else '')
+      ).execute().get('messages')
+    ]
 
     return transform(messageList, lambda msg: msg.getDetails(msgPath, userId))

@@ -5,6 +5,9 @@ from ..tools.BaseTool import MyToolDict
 class BaseAgent(Runnable):
   _prompt: BaseMessagePromptTemplate
 
+  def invoke(state: dict) -> dict:
+    raise NotImplementedError('#invoke method is not implemented')
+
   def _createToolStr(self, tools: MyToolDict):
     toolList = []
 

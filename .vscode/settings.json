@@ -1,7 +1,9 @@
 {
   "cSpell.words": [
     "creds",
+    "dotenv",
     "langchain",
+    "langsmith",
     "llms",
     "Ollama"
   ]

@@ -1,11 +1,12 @@
 from dataclasses import dataclass, field
 from langchain.llms.base import BaseLLM
 from langchain.embeddings.base import Embeddings
-from typing import Optional, TypedDict
+from typing import TypedDict
 from src.config import config
 from langchain.llms.openai import OpenAIChat
 from langchain.llms.ollama import Ollama
 from enum import Enum, auto
+from langsmith import Client
 
 class LLM_ENGINE(Enum):
   Ollama = auto()
@@ -27,13 +28,16 @@ LLM_Config = TypedDict('LLM_Config', {
 
 @dataclass(kw_only=True)
 class Manager_Config(TypedDict):
+  langsmith: bool = field(default=False)
   engines: dict[str, dict] = field(default_factory=dict)
   llms: list[str, LLM_Config] = field(default_factory=dict)
+  embeddings: list[str, LLM_Config] = field(default_factory=dict)
   verbose: bool = field(default=False)
   defaultLLM: str = field(default='')
   defaultEmbedding: str = field(default='')
 
 config.addConfig(Manager_Config, {
+  'langsmith': False,
   'engines': {},
   'llms': [
     {
@@ -59,6 +63,7 @@ config.addConfig(Manager_Config, {
 }, 'LLM_Config')
 
 class LLM_Manager():
+  _langsmithClient: Client
   _llms: dict[str, BaseLLM] = {}
   _embeddings:  dict[str, Embeddings] = {}
 
@@ -68,9 +73,14 @@ class LLM_Manager():
   def __init__(self, config: Manager_Config) -> None:
     llmConfig: list[LLM_Config] = config['llms']
 
+    if ('langsmith' in config and config['langsmith'] == True):
+      self._langsmithClient = Client()
+
     # Configure LLMs
     for value in llmConfig:
       llmEngine = ENGINE_MAP[value['engine']]
+
+      # TODO make llmEngine a function which optionally allows us to configure model validation to avoid runtime errors
 
       self._llms.update({
         value['name']: llmEngine(
@@ -83,7 +93,7 @@ class LLM_Manager():
       if (value['name'] == config['defaultLLM']):
         self._defaultLLM = self._llms[value['name']]
 
-      if (isinstance(self._defaultLLM, None)):
+      if (self._defaultLLM == None):
         self._defaultLLM = self._llms[value['name']]
 
   def getLLM(self, name: str):

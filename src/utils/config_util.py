@@ -1,9 +1,13 @@
+from dotenv import find_dotenv, load_dotenv
 from typing import TypedDict, TypeVar, Type, Optional
 from inspect import getdoc, getmembers, signature, Parameter, get_annotations
 import os
 import pathlib
 import yaml
 import logging
+
+# Load the .env file if one is found
+load_dotenv(find_dotenv())
 
 configLogger = logging.getLogger('Config')
 

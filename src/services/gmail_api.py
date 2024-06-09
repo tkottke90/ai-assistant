@@ -4,6 +4,7 @@ from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 import functools
 import os
+import pathlib
 
 SECRETS = './var'
 TOKEN_FILE = SECRETS + '/token.json'
@@ -26,7 +27,10 @@ class GmailService:
       credentialFileLocation = CREDENTIALS_FILE
 
     if (not tokenLocation or not os.path.exists(TOKEN_FILE)):
-      os.mkdir(os.path.basename(TOKEN_FILE))
+      d = pathlib.Path(os.path.dirname(TOKEN_FILE))
+      if (not d.exists()):
+        d.mkdir(parents=True, exist_ok=True)
+
       tokenLocation = TOKEN_FILE
 
     loadedCreds = None
@@ -47,5 +51,5 @@ class GmailService:
       with open(tokenLocation, "w") as token:
         token.write(loadedCreds.to_json())
 
-    return loadedCreds
+    return GmailService(loadedCreds)
 
