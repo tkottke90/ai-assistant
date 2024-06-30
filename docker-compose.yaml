@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  # redis:
+  #   container_name: ai-assistant-redis
+  #   image: redis:7.2
+  #   restart: unless-stopped
+  #   ports:
+  #     - 7688:6379
+  
+  neo4j:
+    container_name: ai-assistant-neo4j
+    image: neo4j:community
+    restart: unless-stopped
+    volumes:
+       - "./db-conf/plugins:/plugins"
+       - ./var/neo4j:/data
+    ports:
+      - 7474:7474
+      - 7687:7687
+    environment:
+      - NEO4J_AUTH=neo4j/your_password
+      - NEO4J_apoc_export_file_enabled=true
+      - NEO4J_apoc_import_file_enabled=true
+      - NEO4J_apoc_import_file_use__neo4j__config=true
+      - NEO4J_PLUGINS=["apoc"]
+      - NEO4J_dbms.security.procedures.allowlist=apoc.meta.data
+      - NEO4J_dbms_security_procedures_unrestricted=apoc.meta.data

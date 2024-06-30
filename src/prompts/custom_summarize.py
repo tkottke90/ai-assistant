@@ -1,3 +1,13 @@
+from langchain.prompts.chat import ChatPromptTemplate
+from langchain.output_parsers.json import parse_and_check_json_markdown
+from langchain_core.runnables import RunnableLambda
+from src.interfaces.chain import Chain
+from langchain.llms.base import BaseLLM
+
+class SummarizeChain(Chain):
+  verbosity: int
+  summarization: str
+
 custom_summarize_prompt = """context:
 You are an AI Assistant specializing in email management.
 Follow the program outlined below to review the email information.
@@ -37,3 +47,14 @@ steps:
 
 State each line of the steps and explain how you are completing the step.
 """
+
+class CustomSummarizePrompt:
+  
+  def __init__(self, llm: BaseLLM) -> None:
+    self.prompt = custom_summarize_prompt
+    self.template = ChatPromptTemplate.from_template(template=self.prompt)
+    self.llm = llm
+
+  def invoke(self, chain: SummarizeChain):
+    summarizeChain = self.template| self.llm | RunnableLambda(parse_and_check_json_markdown)
+    return summarizeChain.invoke(chain)

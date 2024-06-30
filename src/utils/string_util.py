@@ -1,4 +1,27 @@
 import re
+import hashlib
+from typing import List, Callable
+
+def checksum(input: str) -> str:
+  return hashlib.md5(input.encode()).hexdigest()
+
+def stringExtractor(*, input: str, filter: re.Pattern, keys: List[str], replacementValue: Callable[[re.Match], str] = None):
+  updatedContent = str(input)
+  matches = []
+
+  if (replacementValue is None):
+    replacementValue = lambda match: ""
+
+  for groups in re.findall(filter, input):
+    matches.append({ key:value for (key, value) in zip(keys, groups) })
+    updatedContent = re.sub(
+      filter,
+      replacementValue,
+      updatedContent
+    )
+
+  return matches, updatedContent
+
 
 def stringCleanUp(chunk: str, replacers: list[tuple[str, str, re.RegexFlag]]):
   """
